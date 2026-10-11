@@ -1,0 +1,214 @@
+[
+  {
+    "id": 1,
+    "category_fa": "مدیریت فایل‌ها و دایرکتوری‌ها",
+    "category_en": "File & Directory Management",
+    "title_fa": "کپی و جابه‌جایی فایل‌ها (cp & mv)",
+    "title_en": "Copy & Move Files (cp & mv)",
+    "desc_fa": "یک پوشه بسازید، فایل hosts را درون آن کپی کرده و سپس نام فایل کپی‌شده را تغییر دهید:",
+    "desc_en": "Create a directory, copy /etc/hosts into it, and then rename the copied file:",
+    "specs": [
+      "Directory : /tmp/file_management",
+      "Copy from : /etc/hosts  ->  /tmp/file_management/hosts.bak",
+      "Move/Rename: /tmp/file_management/hosts.bak  ->  /tmp/file_management/hosts.final"
+    ],
+    "points": 10,
+    "hint_fa": "دستورات: mkdir -p /tmp/file_management و سپس cp /etc/hosts /tmp/file_management/hosts.bak و mv",
+    "hint_en": "mkdir -p /tmp/file_management && cp /etc/hosts /tmp/file_management/hosts.bak && mv /tmp/file_management/hosts.bak /tmp/file_management/hosts.final",
+    "verify_cmd": "test -d /tmp/file_management && test -f /tmp/file_management/hosts.final && ! test -f /tmp/file_management/hosts.bak"
+  },
+  {
+    "id": 2,
+    "category_fa": "مدیریت فایل‌ها و دایرکتوری‌ها",
+    "category_en": "File & Directory Management",
+    "title_fa": "حذف انتخابی فایل‌ها (rm)",
+    "title_en": "Selective File Removal (rm)",
+    "desc_fa": "در دایرکتوری مشخص‌شده، فایل اولیه را ساخته و پس از تهیه نسخه کپی، فایل اصلی را حذف کنید:",
+    "desc_en": "In the target directory, create data.txt, copy it to data_backup.txt, then remove the original data.txt:",
+    "specs": [
+      "Directory   : /tmp/clean_workspace",
+      "Create      : /tmp/clean_workspace/data.txt",
+      "Copy to     : /tmp/clean_workspace/data_backup.txt",
+      "Remove (rm) : /tmp/clean_workspace/data.txt"
+    ],
+    "points": 10,
+    "hint_fa": "از دستورات touch، cp و سپس rm /tmp/clean_workspace/data.txt استفاده کنید.",
+    "hint_en": "touch data.txt && cp data.txt data_backup.txt && rm data.txt",
+    "verify_cmd": "test -d /tmp/clean_workspace && test -f /tmp/clean_workspace/data_backup.txt && ! test -f /tmp/clean_workspace/data.txt"
+  },
+  {
+    "id": 3,
+    "category_fa": "جستجو و بررسی متون",
+    "category_en": "Text Search & Inspection",
+    "title_fa": "استخراج خطوط ابتدایی با head",
+    "title_en": "Extract Top Lines with head",
+    "desc_fa": "دقیقاً ۵ خط اول فایل سیستم /etc/passwd را با دستور head استخراج کرده و درون فایل مشخص‌شده ذخیره کنید:",
+    "desc_en": "Extract the first 5 lines of /etc/passwd using the head command into the specified file:",
+    "specs": [
+      "Source File : /etc/passwd",
+      "Command     : head -n 5 /etc/passwd > /tmp/passwd_head.txt",
+      "Target File : /tmp/passwd_head.txt"
+    ],
+    "points": 10,
+    "hint_fa": "head -n 5 /etc/passwd > /tmp/passwd_head.txt",
+    "hint_en": "head -n 5 /etc/passwd > /tmp/passwd_head.txt",
+    "verify_cmd": "test -f /tmp/passwd_head.txt && [ \"$(wc -l < /tmp/passwd_head.txt)\" = \"5\" ] && head -n 5 /etc/passwd | cmp -s - /tmp/passwd_head.txt"
+  },
+  {
+    "id": 4,
+    "category_fa": "جستجو و بررسی متون",
+    "category_en": "Text Search & Inspection",
+    "title_fa": "جستجوی متنی با دستور grep",
+    "title_en": "Text Pattern Search with grep",
+    "desc_fa": "از فایل /etc/protocols تمام خطوطی که شامل عبارت tcp هستند را با grep استخراج کرده و در فایل ذخیره کنید:",
+    "desc_en": "Search for lines containing 'tcp' in /etc/protocols using grep and redirect output to the target file:",
+    "specs": [
+      "Source File : /etc/protocols",
+      "Search Term : tcp",
+      "Target File : /tmp/tcp_records.txt"
+    ],
+    "points": 10,
+    "hint_fa": "grep 'tcp' /etc/protocols > /tmp/tcp_records.txt",
+    "hint_en": "grep 'tcp' /etc/protocols > /tmp/tcp_records.txt",
+    "verify_cmd": "test -f /tmp/tcp_records.txt && grep -q 'tcp' /tmp/tcp_records.txt && ! grep -v 'tcp' /tmp/tcp_records.txt | grep -q '.'"
+  },
+  {
+    "id": 5,
+    "category_fa": "جستجو و بررسی متون",
+    "category_en": "Text Search & Inspection",
+    "title_fa": "مقایسه فایل‌ها با دستور diff",
+    "title_en": "Compare Files with diff",
+    "desc_fa": "دو فایل با محتوای متفاوت بسازید و نتیجه مقایسه آن‌ها با دستور diff را درون فایل خروجی ذخیره کنید:",
+    "desc_en": "Create two files with different contents and save their difference using the diff command:",
+    "specs": [
+      "File 1      : /tmp/fileA.txt (شامل: version 1.0)",
+      "File 2      : /tmp/fileB.txt (شامل: version 2.0)",
+      "Target File : /tmp/diff_report.txt (حاصل diff /tmp/fileA.txt /tmp/fileB.txt)"
+    ],
+    "points": 10,
+    "hint_fa": "diff /tmp/fileA.txt /tmp/fileB.txt > /tmp/diff_report.txt",
+    "hint_en": "diff /tmp/fileA.txt /tmp/fileB.txt > /tmp/diff_report.txt",
+    "verify_cmd": "test -f /tmp/fileA.txt && test -f /tmp/fileB.txt && test -f /tmp/diff_report.txt && [ -s /tmp/diff_report.txt ] && grep -q 'version 1.0' /tmp/diff_report.txt"
+  },
+  {
+    "id": 6,
+    "category_fa": "مجوزها و دسترسی‌ها",
+    "category_en": "User Permissions & Access Control",
+    "title_fa": "تنظیم مجوز اختصاصی فایل (chmod)",
+    "title_en": "Manage Permissions (chmod)",
+    "desc_fa": "یک فایل اسکریپت بسازید و مجوز آن را روی 750 تنظیم کنید (مالک rwx، گروه rx، دیگران هیچ):",
+    "desc_en": "Create a script file and set its permissions to 750 (Owner rwx, Group rx, Others none):",
+    "specs": [
+      "Target File : /tmp/secure_tool.sh",
+      "Permissions : 750"
+    ],
+    "points": 10,
+    "hint_fa": "touch /tmp/secure_tool.sh && chmod 750 /tmp/secure_tool.sh",
+    "hint_en": "touch /tmp/secure_tool.sh && chmod 750 /tmp/secure_tool.sh",
+    "verify_cmd": "test -f /tmp/secure_tool.sh && [ \"$(stat -c '%a' /tmp/secure_tool.sh)\" = \"750\" ]"
+  },
+  {
+    "id": 7,
+    "category_fa": "مجوزها و دسترسی‌ها",
+    "category_en": "User Permissions & Access Control",
+    "title_fa": "دایرکتوری کاملاً محرمانه (Restricted Directory)",
+    "title_en": "Restricted Directory (chmod 700)",
+    "desc_fa": "یک دایرکتوری بسازید و مجوز آن را برابر با 700 قرار دهید (فقط مالک دسترسی کامل داشته باشد):",
+    "desc_en": "Create a directory and set permissions to 700 (Owner only full access):",
+    "specs": [
+      "Directory   : /tmp/private_vault",
+      "Permissions : 700"
+    ],
+    "points": 10,
+    "hint_fa": "mkdir -p /tmp/private_vault && chmod 700 /tmp/private_vault",
+    "hint_en": "mkdir -p /tmp/private_vault && chmod 700 /tmp/private_vault",
+    "verify_cmd": "test -d /tmp/private_vault && [ \"$(stat -c '%a' /tmp/private_vault)\" = \"700\" ]"
+  },
+  {
+    "id": 8,
+    "category_fa": "فشرده‌سازی و آرشیو",
+    "category_en": "Archiving & Compression",
+    "title_fa": "آرشیو و فشرده‌سازی با tar",
+    "title_en": "Archive & Compression (tar)",
+    "desc_fa": "یک پوشه شامل دو فایل ایجاد کرده و از آن یک فایل آرشیو فشرده با فرمت tar.gz بسازید:",
+    "desc_en": "Create a directory with files and compress it into a tar.gz archive:",
+    "specs": [
+      "Directory : /tmp/my_data (شامل فایل a.txt)",
+      "Target    : /tmp/my_data.tar.gz"
+    ],
+    "points": 10,
+    "hint_fa": "tar -czf /tmp/my_data.tar.gz -C /tmp my_data",
+    "hint_en": "tar -czf /tmp/my_data.tar.gz -C /tmp my_data",
+    "verify_cmd": "test -f /tmp/my_data.tar.gz && tar -tzf /tmp/my_data.tar.gz | grep -q 'a.txt'"
+  },
+  {
+    "id": 9,
+    "category_fa": "مدیریت پردازش‌ها",
+    "category_en": "Process Control & Management",
+    "title_fa": "مشاهده پردازش‌های سیستم (ps)",
+    "title_en": "System Process Inspection (ps)",
+    "desc_fa": "فهرست پردازش‌های جاری سیستم را با دستور ps استخراج کرده و درون فایل مشخص‌شده ذخیره کنید:",
+    "desc_en": "List running processes using ps and redirect the output to the specified file:",
+    "specs": [
+      "Command     : ps aux > /tmp/running_processes.txt (یا ps -ef)",
+      "Target File : /tmp/running_processes.txt"
+    ],
+    "points": 10,
+    "hint_fa": "ps aux > /tmp/running_processes.txt",
+    "hint_en": "ps aux > /tmp/running_processes.txt",
+    "verify_cmd": "test -f /tmp/running_processes.txt && grep -q 'PID' /tmp/running_processes.txt && [ $(wc -l < /tmp/running_processes.txt) -ge 5 ]"
+  },
+  {
+    "id": 10,
+    "category_fa": "مدیریت پردازش‌ها",
+    "category_en": "Process Control & Management",
+    "title_fa": "متوقف کردن پردازش با kill / killall",
+    "title_en": "Terminate Process (kill / killall)",
+    "desc_fa": "یک پردازش پس‌زمینه با دستور sleep 5555 & اجرا کنید، سپس با دستور kill یا killall آن را متوقف نمایید:",
+    "desc_en": "Start a background process 'sleep 5555 &', find its PID or process name, and terminate it using kill or killall:",
+    "specs": [
+      "Background command : sleep 5555 &",
+      "Action             : kill <PID>  یا  killall sleep",
+      "Goal               : اطمینان از اینکه هیچ پروسه‌ای با آرگومان 5555 دیگر فعال نیست"
+    ],
+    "points": 10,
+    "hint_fa": "ابتدا sleep 5555 & را اجرا کنید، سپس دستور killall sleep یا kill را بزنید.",
+    "hint_en": "Run 'sleep 5555 &' then terminate it with 'killall sleep'",
+    "verify_cmd": "! pgrep -f 'sleep 5555' > /dev/null"
+  },
+  {
+    "id": 11,
+    "category_fa": "شبکه و مستندات",
+    "category_en": "Networking & Documentation",
+    "title_fa": "استخراج راهنما با دستور man",
+    "title_en": "Command Manual Extraction (man)",
+    "desc_fa": "راهنمای رسمی لینوکس برای دستور ls را با استفاده از دستور man استخراج کرده و ذخیره نمایید:",
+    "desc_en": "Extract the manual documentation for the 'ls' command into the specified file:",
+    "specs": [
+      "Command     : man ls > /tmp/man_ls.txt  یا  man -P cat ls > /tmp/man_ls.txt",
+      "Target File : /tmp/man_ls.txt"
+    ],
+    "points": 10,
+    "hint_fa": "man -P cat ls > /tmp/man_ls.txt یا man ls > /tmp/man_ls.txt",
+    "hint_en": "man -P cat ls > /tmp/man_ls.txt",
+    "verify_cmd": "test -f /tmp/man_ls.txt && grep -iq 'list directory contents' /tmp/man_ls.txt"
+  },
+  {
+    "id": 12,
+    "category_fa": "شبکه و مستندات",
+    "category_en": "Networking & Documentation",
+    "title_fa": "بررسی اتصال شبکه با ping",
+    "title_en": "Network Connectivity (ping)",
+    "desc_fa": "دقیقاً ۲ پکت شبکه به آدرس لوکال 127.0.0.1 با گزینه -c 2 ارسال کرده و گزارش خروجی را ذخیره کنید:",
+    "desc_en": "Send exactly 2 ping packets to 127.0.0.1 using the -c 2 option and redirect the output to the target file:",
+    "specs": [
+      "Target Host : 127.0.0.1",
+      "Command     : ping -c 2 127.0.0.1 > /tmp/ping_report.txt",
+      "Target File : /tmp/ping_report.txt"
+    ],
+    "points": 10,
+    "hint_fa": "ping -c 2 127.0.0.1 > /tmp/ping_report.txt",
+    "hint_en": "ping -c 2 127.0.0.1 > /tmp/ping_report.txt",
+    "verify_cmd": "test -f /tmp/ping_report.txt && grep -q '2 packets transmitted' /tmp/ping_report.txt"
+  }
+]

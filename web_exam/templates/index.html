@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سامانه آزمون عملی لینوکس | Linux Practical Exam</title>
+  <meta name="description" content="سامانه هوشمند و تعاملی آزمون و ارزیابی مهارت‌های عملی لینوکس">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- پس‌زمینه پویا -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- نوار بالای صفحه (Header) -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand">
+        <div class="brand-icon">🐧</div>
+        <div>
+          <h1 class="brand-title">سامانه آزمون عملی لینوکس</h1>
+          <span class="brand-subtitle">Hands-on Linux Assessment</span>
+        </div>
+      </div>
+      <div class="exam-stats" id="exam-stats-bar" style="display: none;">
+        <div class="stat-badge">
+          <span class="stat-label">امتیاز:</span>
+          <span class="stat-value text-accent" id="current-score">0 / 0</span>
+        </div>
+        <div class="stat-badge">
+          <span class="stat-label">وضعیت:</span>
+          <span class="stat-value text-success" id="solved-count">0 از 0 حل شده</span>
+        </div>
+        <div class="stat-badge timer-badge">
+          <span class="stat-label">⏱ زمان سپری‌شده:</span>
+          <span class="stat-value" id="timer-display">00:00</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- بدنه اصلی -->
+  <main class="main-content">
+    
+    <!-- مرحله ۱: فرم ورود و ثبت مشخصات دانشجو -->
+    <section id="login-section" class="card login-card">
+      <div class="login-header">
+        <div class="badge-pill">خوش آمدید</div>
+        <h2 class="section-title">شروع آزمون عملی لینوکس</h2>
+        <p class="section-desc">برای شروع آزمون و ثبت کارنامه نهایی، لطفاً مشخصات خود را با دقت وارد کنید.</p>
+      </div>
+
+      <form id="start-exam-form" class="form-grid">
+        <div class="form-group">
+          <label for="student-name" class="form-label">نام و نام خانوادگی:</label>
+          <input type="text" id="student-name" class="form-input" placeholder="مثال: علی رضایی" required autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label for="student-id" class="form-label">کد ملی:</label>
+          <input type="text" id="student-id" class="form-input" placeholder="مثال: 0012345678" required>
+        </div>
+
+        <div class="exam-guide-box">
+          <div class="guide-title">📌 نحوه برگزاری آزمون:</div>
+          <ul class="guide-list">
+            <li>دستورات را در ترمینال لینوکس سیستم خودتان اجرا کنید.</li>
+            <li>پس از انجام هر سؤال، روی دکمه <strong>«بررسی روی سیستم»</strong> کلیک کنید.</li>
+            <li>ابزار به‌صورت زنده سیستم شما را بررسی کرده و بازخورد و امتیاز می‌دهد.</li>
+          </ul>
+        </div>
+
+        <button type="submit" id="btn-start-exam" class="btn btn-primary btn-block">
+          <span>ورود به آزمون و شروع سؤالات</span>
+          <span class="btn-arrow">←</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- مرحله ۲: محیط سوالات آزمون -->
+    <section id="exam-section" class="exam-layout" style="display: none;">
+      <!-- ستون کناری: لیست سوالات و ناوبری -->
+      <aside class="questions-sidebar">
+        <div class="sidebar-header">
+          <h3 class="sidebar-title">فهرست سناریوها</h3>
+          <span class="sidebar-count" id="sidebar-progress">0%</span>
+        </div>
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
+        </div>
+        <nav class="questions-nav" id="questions-list-nav" aria-label="فهرست سؤالات">
+          <!-- با جاوااسکریپت پر می‌شود -->
+        </nav>
+
+        <div class="sidebar-footer">
+          <button type="button" id="btn-finish-exam" class="btn btn-danger btn-block">
+            🏁 پایان آزمون و صدور کارنامه
+          </button>
+        </div>
+      </aside>
+
+      <!-- پنل اصلی: جزئیات سوال فعال -->
+      <article class="question-detail-panel card">
+        <div class="question-header">
+          <div class="q-badge-wrap">
+            <span class="badge-category" id="q-category-pill">دسته‌بندی</span>
+            <span class="badge-pill" id="q-index-pill">سؤال ۱ از ۱۲</span>
+            <span class="badge-points" id="q-points-pill">۱۰ نمره</span>
+          </div>
+          <h2 class="q-title" id="q-title">در حال بارگذاری...</h2>
+        </div>
+
+        <div class="task-box">
+          <h4 class="task-box-title">📝 صورت مسئله و وظیفه شما:</h4>
+          <p class="task-description" id="q-description">لطفاً صبر کنید...</p>
+          <div id="q-specs-container" class="specs-wrapper" style="display: none;"></div>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" id="btn-check-task" class="btn btn-primary btn-lg">
+            <span id="btn-check-spinner" class="spinner" style="display: none;"></span>
+            <span id="btn-check-text">🔍 بررسی پاسخ روی سیستم</span>
+          </button>
+
+          <button type="button" id="btn-toggle-hint" class="btn btn-secondary">
+            💡 نمایش راهنمایی
+          </button>
+        </div>
+
+        <!-- پیام نتیجه بررسی -->
+        <div id="check-result-box" class="result-feedback" style="display: none;">
+          <div class="feedback-icon" id="feedback-icon">✔</div>
+          <div class="feedback-text" id="feedback-text"></div>
+        </div>
+
+        <!-- باکس راهنمایی -->
+        <div id="hint-box" class="hint-container" style="display: none;">
+          <div class="hint-header">💡 راهنمایی:</div>
+          <div class="hint-body" id="hint-content"></div>
+        </div>
+
+        <!-- دکمه‌های بعدی و قبلی -->
+        <div class="navigation-buttons">
+          <button type="button" id="btn-prev-q" class="btn btn-outline">→ سؤال قبلی</button>
+          <button type="button" id="btn-next-q" class="btn btn-outline">سؤال بعدی ←</button>
+        </div>
+      </article>
+    </section>
+
+    <!-- مرحله ۳: مودال / صفحه کارنامه نهایی -->
+    <section id="result-modal" class="modal-backdrop" style="display: none;">
+      <div class="modal-card">
+        <div class="certificate-badge">🎓 کارنامه نهایی آزمون</div>
+        <h2 class="cert-title">پایان رسمی آزمون لینوکس</h2>
+
+        <div class="cert-details">
+          <div class="cert-row">
+            <span>نام دانشجو:</span>
+            <strong id="cert-student-name">-</strong>
+          </div>
+          <div class="cert-row">
+            <span>کد ملی:</span>
+            <strong id="cert-student-id">-</strong>
+          </div>
+          <div class="cert-row">
+            <span>نمره کسب شده:</span>
+            <strong class="text-accent highlight-score" id="cert-score">0 / 0</strong>
+          </div>
+          <div class="cert-row">
+            <span>سؤالات حل شده:</span>
+            <strong class="text-success" id="cert-passed-count">0</strong>
+          </div>
+          <div class="cert-row">
+            <span>راهنماهای بازشده:</span>
+            <strong class="text-danger" id="cert-hints-count">0 مورد (جریمه کسر شد)</strong>
+          </div>
+          <div class="cert-row">
+            <span>تاریخ و ساعت:</span>
+            <span id="cert-time" class="text-muted">-</span>
+          </div>
+          <div class="cert-row signature-row">
+            <span>امضای امنیتی:</span>
+            <code class="sig-code" id="cert-signature">-</code>
+          </div>
+        </div>
+
+        <div class="cert-actions">
+          <a id="btn-download-cert" href="#" class="btn btn-primary btn-block" download>
+            📥 دانلود فایل کارنامه (exam_result.json)
+          </a>
+          <p class="cert-notice">این فایل دارای امضای هش HMAC است؛ لطفاً آن را مستقیماً برای استاد ارسال نمایید.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
